@@ -40,11 +40,21 @@ getlocation.addEventListener('submit', (event) => {
     }
 
     navigator.geolocation.getCurrentPosition((position) => {
-        let position = {
+        let location = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         }
 
         // Make REST call to new API for forecat information.
+        fetch('/weather/' + location.latitude + '/' + location.longitude).then((response) => {
+            response.json().then((data) => {
+                if(data.error) {
+                    return messageOne.textContent = data.error
+                }
+    
+                messageOne.textContent = ''
+                messageTwo.textContent = data.forecastData
+            })
+        })
     })
 })

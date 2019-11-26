@@ -42,6 +42,20 @@ app.get('/help', (req, res) => {
     })
 })
 
+app.get('/weather/:latitude/:longitude', (req, res) => {
+    const { latitude, longitude } = req.params
+
+    forecast(latitude, longitude, (error, forecastData) => {
+        if(error) {
+            return res.send( { error })
+        }
+
+        res.send({
+            forecastData
+        })
+    })
+})
+
 app.get('/weather', (req, res) => {
     const address = req.query.address
     //console.log(address)
